@@ -90,3 +90,15 @@ func TestUpdate(t *testing.T) {
 		assertError(t, err, ErrKeyDoesNotExist)
 	})
 }
+
+func TestDelete(t *testing.T) {
+	key := "test"
+	dictionary := Dictionary{key: "test definition"}
+
+	dictionary.Delete(key)
+
+	_, err := dictionary.Search(key)
+	if err != ErrNotFound {
+		t.Errorf("Expected %q to be deleted", key)
+	}
+}
