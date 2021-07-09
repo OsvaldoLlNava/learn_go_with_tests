@@ -66,3 +66,27 @@ func assertValue(t testing.TB, dictionary Dictionary, key, value string) {
 		t.Errorf("got %q want %q", got, value)
 	}
 }
+
+func TestUpdate(t *testing.T) {
+	t.Run("existing key", func(t *testing.T) {
+		key := "test"
+		value := "this is just a test"
+		newValue := "new value"
+		dictionary := Dictionary{key: value}
+
+		err := dictionary.Update(key, newValue)
+
+		assertError(t, err, nil)
+		assertValue(t, dictionary, key, newValue)
+	})
+
+	t.Run("new key", func(t *testing.T) {
+		key := "test"
+		value := "this is just a test"
+		dictionary := Dictionary{}
+
+		err := dictionary.Update(key, value)
+
+		assertError(t, err, ErrKeyDoesNotExist)
+	})
+}
